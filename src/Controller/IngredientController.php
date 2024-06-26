@@ -64,4 +64,16 @@ class IngredientController extends AbstractController
        
         return $this->render("pages/ingredient/edit.html.twig", ["form"=>$form,]);
     }
+
+    #[Route('/ingredient/remove/{id}','ingredient_remove',methods:['GET'])]
+    public function remove(Request $request, EntityManagerInterface $manager, Ingredient $ingredient): Response
+    {
+        $manager->remove($ingredient);
+        $manager->flush();
+
+        $this->addFlash("success", "L'ingredient a été supprimé !");
+
+        return $this->redirectToRoute("app_ingredient");
+    }
+        
 }
